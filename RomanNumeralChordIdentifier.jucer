@@ -5,6 +5,10 @@
               jucerFormatVersion="1">
   <MAINGROUP id="wSrVHS" name="RomanNumeralChordIdentifier">
     <GROUP id="{87AB27A0-7C94-FE39-89F5-D95CA3BB81A6}" name="Source">
+      <FILE id="uB9iII" name="ChordComponent.cpp" compile="1" resource="0"
+            file="Source/ChordComponent.cpp"/>
+      <FILE id="MieVUR" name="ChordComponent.h" compile="0" resource="0"
+            file="Source/ChordComponent.h"/>
       <FILE id="IDPH23" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="trr4wL" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="eL27m4" name="MainComponent.cpp" compile="1" resource="0"

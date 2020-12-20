@@ -1,15 +1,16 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "ChordComponent.h"
 
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainComponent  : public juce::Component,
-                       private juce::MidiInputCallback,
-                       private juce::MidiKeyboardStateListener
+class MainComponent : public juce::Component,
+                      private juce::MidiInputCallback,
+                      private juce::MidiKeyboardStateListener
 {
 public:
     //==============================================================================
@@ -31,6 +32,21 @@ private:
     
     void handleNoteOff (juce::MidiKeyboardState*, int midiChannel, int midiNoteNumber, float /*velocity*/) override;
     
+    class IncomingMessageCallback : public juce::CallbackMessage
+    {
+    public:
+        IncomingMessageCallback(MainComponent* o, const juce::MidiMessage& m);
+        
+        void messageCallback() override;
+        
+        Component::SafePointer<MainComponent> owner;
+        juce::MidiMessage message;
+    };
+    
+    void postMessage (const juce::MidiMessage& message);
+    
+    void addMessage (const juce::MidiMessage& message);
+    
     // Member variables
     juce::AudioDeviceManager deviceManager;
     juce::ComboBox midiInputList;
@@ -51,14 +67,12 @@ private:
                                        juce::CharPointer_UTF8 ("\x47\xe2\x99\xaf\x2f\x41\xe2\x99\xad"),  // G sharp or A flat
                                        juce::CharPointer_UTF8 ("\x41"),  // A
                                        juce::CharPointer_UTF8 ("\x41\xe2\x99\xaf\x2f\x42\xe2\x99\xad"),  // A sharp or B flat
-                                       juce::CharPointer_UTF8 ("\x42\x2f\x43\xe2\x99\xad"),  // B or C flat
-    };
+                                       juce::CharPointer_UTF8 ("\x42\x2f\x43\xe2\x99\xad")};  // B or C flat
     
     juce::MidiKeyboardState keyboardState;
     juce::MidiKeyboardComponent keyboardComponent;
     
-    juce::TextEditor scaleDegreeBox;
-    juce::TextEditor intervalBox;
-
+    ChordComponent chord;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

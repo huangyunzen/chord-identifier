@@ -61,6 +61,10 @@
 			isa = PBXBuildFile;
 			fileRef = 057EAE8E55DB485882996407;
 		};
+		354E3AD8A666500BD93ABD60 = {
+			isa = PBXBuildFile;
+			fileRef = 70E7605A75DDED745276041B;
+		};
 		17D9C17004A14AA8D6547483 = {
 			isa = PBXBuildFile;
 			fileRef = 4D5556F91D64A50D632CE2FD;
@@ -260,6 +264,13 @@
 			path = RomanNumeralChordIdentifier.app;
 			sourceTree = "BUILT_PRODUCTS_DIR";
 		};
+		70E7605A75DDED745276041B = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = ChordComponent.cpp;
+			path = ../../Source/ChordComponent.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		7351499A3F7B583773348504 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -314,6 +325,13 @@
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = "include_juce_core.mm";
 			path = "../../JuceLibraryCode/include_juce_core.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		A9862CD95CDB1E72A3D151BD = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = ChordComponent.h;
+			path = ../../Source/ChordComponent.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		AB7F8ED81E60787E5FC90CFD = {
@@ -403,6 +421,8 @@
 		2C23605E5291DAC31D2C1BA6 = {
 			isa = PBXGroup;
 			children = (
+				70E7605A75DDED745276041B,
+				A9862CD95CDB1E72A3D151BD,
 				4D5556F91D64A50D632CE2FD,
 				EA766B97C91BD9D2AAFA0287,
 				FED5A2DD56EF0D6CB49CF802,
@@ -762,6 +782,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				354E3AD8A666500BD93ABD60,
 				17D9C17004A14AA8D6547483,
 				9EE76FF8315694EAF9493384,
 				B496441C94E42CBEFD7643A7,

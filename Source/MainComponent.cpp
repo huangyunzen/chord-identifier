@@ -14,11 +14,12 @@ MainComponent::MainComponent()
     midiInputList.setTextWhenNoChoicesAvailable ("No MIDI Inputs Enabled");
     auto midiInputs = juce::MidiInput::getAvailableDevices();
     
+    // add available midi devices to list
     juce::StringArray midiInputNames;
-
     for (auto input : midiInputs)
+    {
         midiInputNames.add (input.name);
-
+    }
     midiInputList.addItemList (midiInputNames, 1);
     midiInputList.onChange = [this] { setMidiInput (midiInputList.getSelectedItemIndex()); };
 
@@ -43,14 +44,17 @@ MainComponent::MainComponent()
     addAndMakeVisible (keyList);
     keyList.setTextWhenNothingSelected ("--");
     
+    // add all keys to list
     for (int i = 0; i < 12; ++i)
     {
         keyList.addItem (keyArray[i], i + 1);
     }
-    keyList.onChange = [this] { std::cout << "Key changed" << std::endl; };
+    keyList.onChange = [this] { std::cout << keyList.getSelectedId() << std::endl; };
     
     addAndMakeVisible (keyboardComponent);
     keyboardState.addListener (this);
+    
+    addAndMakeVisible (chord);
     
     setSize (600, 400);
 }
@@ -74,8 +78,11 @@ void MainComponent::resized()
     // update their positions.
     auto area = getLocalBounds();
 
-    midiInputList    .setBounds (80,  0, 120, 25);
+    midiInputList    .setBounds (80, 0, 120, 25);
     keyList          .setBounds (250, 0, 80, 25);
+    /*scaleDegreeBox   .setBoundsRelative (0.4f, 0.2f, 0.2f, 0.43f);
+    intervalBox      .setBoundsRelative (0.6f, 0.08f, 0.15f, 0.65f);*/
+    chord.setBoundsRelative (0.35f, 0.08f, 0.425f, 0.65f);
     keyboardComponent.setBounds (area.removeFromBottom (80));
 }
 
@@ -90,7 +97,9 @@ void MainComponent::setMidiInput (int index)
     auto newInput = list[index];
 
     if (! deviceManager.isMidiInputDeviceEnabled (newInput.identifier))
+    {
         deviceManager.setMidiInputDeviceEnabled (newInput.identifier, true);
+    }
 
     deviceManager.addMidiInputDeviceCallback (newInput.identifier, this);
     midiInputList.setSelectedId (index + 1, juce::dontSendNotification);
@@ -103,6 +112,7 @@ void MainComponent::handleIncomingMidiMessage (juce::MidiInput* source, const ju
 {
     const juce::ScopedValueSetter<bool> scopedInputFlag (isAddingFromMidiInput, true);
     keyboardState.processNextMidiEvent (message);
+    postMessage (message);
 }
 
 void MainComponent::handleNoteOn (juce::MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity)
@@ -111,6 +121,7 @@ void MainComponent::handleNoteOn (juce::MidiKeyboardState*, int midiChannel, int
     {
         auto m = juce::MidiMessage::noteOn (midiChannel, midiNoteNumber, velocity);
         m.setTimeStamp (juce::Time::getMillisecondCounterHiRes() * 0.001);
+        postMessage (m);
     }
 }
 
@@ -120,5 +131,30 @@ void MainComponent::handleNoteOff (juce::MidiKeyboardState*, int midiChannel, in
     {
         auto m = juce::MidiMessage::noteOff (midiChannel, midiNoteNumber);
         m.setTimeStamp (juce::Time::getMillisecondCounterHiRes() * 0.001);
+        postMessage (m);
     }
 }
+
+MainComponent::IncomingMessageCallback::IncomingMessageCallback (MainComponent* o, const juce::MidiMessage& m)
+  : owner (o), message (m)
+{}
+
+void MainComponent::IncomingMessageCallback::messageCallback()
+{
+    if (owner != nullptr)
+    {
+        owner->addMessage (message);
+    }
+}
+
+void MainComponent::postMessage (const juce::MidiMessage& message)
+{
+    (new IncomingMessageCallback (this, message))->post();
+}
+
+void MainComponent::addMessage (const juce::MidiMessage& message)
+{
+    std::cout << juce::MidiMessage::getMidiNoteName (message.getNoteNumber(), true, false, 3) << std::endl;
+    std::cout << message.getNoteNumber() << std::endl;
+}
+
