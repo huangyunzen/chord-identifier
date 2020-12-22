@@ -10,7 +10,7 @@
 #include "MainComponent.h"
 
 //==============================================================================
-class RomanNumeralChordIdentifierApplication  : public juce::JUCEApplication
+class RomanNumeralChordIdentifierApplication : public juce::JUCEApplication
 {
 public:
     //==============================================================================

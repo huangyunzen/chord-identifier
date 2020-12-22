@@ -56,23 +56,44 @@ private:
     
     juce::ComboBox keyList;
     juce::Label keyListLabel;
-    const juce::String keyArray[12] = {juce::CharPointer_UTF8 ("\x43"),  // C
-                                       juce::CharPointer_UTF8 ("\x43\xe2\x99\xaf\x2f\x44\xe2\x99\xad"),  // C sharp or D flat
-                                       juce::CharPointer_UTF8 ("\x44"),  // D
-                                       juce::CharPointer_UTF8 ("\x44\xe2\x99\xaf\x2f\x45\xe2\x99\xad"),  // D sharp or E flat
-                                       juce::CharPointer_UTF8 ("\x45"),  // E
-                                       juce::CharPointer_UTF8 ("\x46"),  // F
-                                       juce::CharPointer_UTF8 ("\x46\xe2\x99\xaf\x2f\x47\xe2\x99\xad"),  // F sharp or G flat
-                                       juce::CharPointer_UTF8 ("\x47"),  // G
-                                       juce::CharPointer_UTF8 ("\x47\xe2\x99\xaf\x2f\x41\xe2\x99\xad"),  // G sharp or A flat
-                                       juce::CharPointer_UTF8 ("\x41"),  // A
-                                       juce::CharPointer_UTF8 ("\x41\xe2\x99\xaf\x2f\x42\xe2\x99\xad"),  // A sharp or B flat
-                                       juce::CharPointer_UTF8 ("\x42\x2f\x43\xe2\x99\xad")};  // B or C flat
+    const juce::StringArray keyArray =
+    {
+        juce::String (juce::CharPointer_UTF8 ("C major")),
+        juce::String (juce::CharPointer_UTF8 ("a minor")),
+        juce::String (juce::CharPointer_UTF8 ("G major")),
+        juce::String (juce::CharPointer_UTF8 ("e minor")),
+        juce::String (juce::CharPointer_UTF8 ("D major")),
+        juce::String (juce::CharPointer_UTF8 ("b minor")),
+        juce::String (juce::CharPointer_UTF8 ("A major")),
+        juce::String (juce::CharPointer_UTF8 ("f\xe2\x99\xaf minor")),
+        juce::String (juce::CharPointer_UTF8 ("E major")),
+        juce::String (juce::CharPointer_UTF8 ("c\xe2\x99\xaf minor")),
+        juce::String (juce::CharPointer_UTF8 ("B major")),
+        juce::String (juce::CharPointer_UTF8 ("g\xe2\x99\xaf minor")),
+        juce::String (juce::CharPointer_UTF8 ("F\xe2\x99\xaf major")),
+        juce::String (juce::CharPointer_UTF8 ("d\xe2\x99\xaf minor")),
+        juce::String (juce::CharPointer_UTF8 ("C\xe2\x99\xaf major")),
+        juce::String (juce::CharPointer_UTF8 ("a\xe2\x99\xaf minor")),
+        juce::String (juce::CharPointer_UTF8 ("F major")),
+        juce::String (juce::CharPointer_UTF8 ("d minor")),
+        juce::String (juce::CharPointer_UTF8 ("B\xe2\x99\xad major")),
+        juce::String (juce::CharPointer_UTF8 ("g minor")),
+        juce::String (juce::CharPointer_UTF8 ("E\xe2\x99\xad major")),
+        juce::String (juce::CharPointer_UTF8 ("c minor")),
+        juce::String (juce::CharPointer_UTF8 ("A\xe2\x99\xad major")),
+        juce::String (juce::CharPointer_UTF8 ("f minor")),
+        juce::String (juce::CharPointer_UTF8 ("D\xe2\x99\xad major")),
+        juce::String (juce::CharPointer_UTF8 ("b\xe2\x99\xad minor")),
+        juce::String (juce::CharPointer_UTF8 ("G\xe2\x99\xad major")),
+        juce::String (juce::CharPointer_UTF8 ("e\xe2\x99\xad minor")),
+        juce::String (juce::CharPointer_UTF8 ("C\xe2\x99\xad major")),
+        juce::String (juce::CharPointer_UTF8 ("a\xe2\x99\xad minor"))
+    };
     
     juce::MidiKeyboardState keyboardState;
     juce::MidiKeyboardComponent keyboardComponent;
     
-    ChordComponent chord;
+    ChordComponent chordBox;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

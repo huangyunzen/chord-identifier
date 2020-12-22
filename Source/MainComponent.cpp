@@ -13,7 +13,6 @@ MainComponent::MainComponent()
     addAndMakeVisible (midiInputList);
     midiInputList.setTextWhenNoChoicesAvailable ("No MIDI Inputs Enabled");
     auto midiInputs = juce::MidiInput::getAvailableDevices();
-    
     // add available midi devices to list
     juce::StringArray midiInputNames;
     for (auto input : midiInputs)
@@ -22,7 +21,6 @@ MainComponent::MainComponent()
     }
     midiInputList.addItemList (midiInputNames, 1);
     midiInputList.onChange = [this] { setMidiInput (midiInputList.getSelectedItemIndex()); };
-
     // find the first enabled device and use that by default
     for (auto input : midiInputs)
     {
@@ -32,10 +30,11 @@ MainComponent::MainComponent()
             break;
         }
     }
-
     // if no enabled devices were found just use the first one in the list
     if (midiInputList.getSelectedId() == 0)
+    {
         setMidiInput (0);
+    }
 
     addAndMakeVisible (keyListLabel);
     keyListLabel.setText ("Key:", juce::dontSendNotification);
@@ -43,18 +42,22 @@ MainComponent::MainComponent()
     
     addAndMakeVisible (keyList);
     keyList.setTextWhenNothingSelected ("--");
-    
     // add all keys to list
-    for (int i = 0; i < 12; ++i)
+    for (int i = 0; i < keyArray.size(); ++i)
     {
         keyList.addItem (keyArray[i], i + 1);
+        if (i == 15)
+        {
+            keyList.addSeparator();
+        }
     }
-    keyList.onChange = [this] { std::cout << keyList.getSelectedId() << std::endl; };
+    
+    addAndMakeVisible (chordBox);
+    keyList.onChange = [this] { chordBox.setKey(keyList.getSelectedId()); };
     
     addAndMakeVisible (keyboardComponent);
+    keyboardComponent.setOctaveForMiddleC (4);
     keyboardState.addListener (this);
-    
-    addAndMakeVisible (chord);
     
     setSize (600, 400);
 }
@@ -78,11 +81,11 @@ void MainComponent::resized()
     // update their positions.
     auto area = getLocalBounds();
 
-    midiInputList    .setBounds (80, 0, 120, 25);
-    keyList          .setBounds (250, 0, 80, 25);
+    midiInputList.setBounds (80, 0, 120, 25);
+    keyList.setBounds (250, 0, 80, 25);
     /*scaleDegreeBox   .setBoundsRelative (0.4f, 0.2f, 0.2f, 0.43f);
     intervalBox      .setBoundsRelative (0.6f, 0.08f, 0.15f, 0.65f);*/
-    chord.setBoundsRelative (0.35f, 0.08f, 0.425f, 0.65f);
+    chordBox.setBoundsRelative (0.35f, 0.08f, 0.425f, 0.65f);
     keyboardComponent.setBounds (area.removeFromBottom (80));
 }
 
@@ -120,7 +123,6 @@ void MainComponent::handleNoteOn (juce::MidiKeyboardState*, int midiChannel, int
     if (! isAddingFromMidiInput)
     {
         auto m = juce::MidiMessage::noteOn (midiChannel, midiNoteNumber, velocity);
-        m.setTimeStamp (juce::Time::getMillisecondCounterHiRes() * 0.001);
         postMessage (m);
     }
 }
@@ -130,7 +132,6 @@ void MainComponent::handleNoteOff (juce::MidiKeyboardState*, int midiChannel, in
     if (! isAddingFromMidiInput)
     {
         auto m = juce::MidiMessage::noteOff (midiChannel, midiNoteNumber);
-        m.setTimeStamp (juce::Time::getMillisecondCounterHiRes() * 0.001);
         postMessage (m);
     }
 }
@@ -154,7 +155,18 @@ void MainComponent::postMessage (const juce::MidiMessage& message)
 
 void MainComponent::addMessage (const juce::MidiMessage& message)
 {
-    std::cout << juce::MidiMessage::getMidiNoteName (message.getNoteNumber(), true, false, 3) << std::endl;
-    std::cout << message.getNoteNumber() << std::endl;
+    // return if key is not set
+    if (chordBox.getKey() == 0)
+    {
+        return;
+    }
+    
+    if (message.isNoteOn())
+    {
+        chordBox.addNote (message.getNoteNumber());
+    } else if (message.isNoteOff())
+    {
+        chordBox.removeNote (message.getNoteNumber());
+    }
 }
 
