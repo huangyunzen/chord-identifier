@@ -10,11 +10,11 @@
 #include "MainComponent.h"
 
 //==============================================================================
-class RomanNumeralChordIdentifierApplication : public juce::JUCEApplication
+class ChordIdentifierApplication : public juce::JUCEApplication
 {
 public:
     //==============================================================================
-    RomanNumeralChordIdentifierApplication() {}
+    ChordIdentifierApplication() {}
 
     const juce::String getApplicationName() override       { return ProjectInfo::projectName; }
     const juce::String getApplicationVersion() override    { return ProjectInfo::versionString; }
@@ -96,4 +96,4 @@ private:
 
 //==============================================================================
 // This macro generates the main() routine that launches the app.
-START_JUCE_APPLICATION (RomanNumeralChordIdentifierApplication)
+START_JUCE_APPLICATION (ChordIdentifierApplication)

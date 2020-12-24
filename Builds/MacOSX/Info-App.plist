@@ -6,13 +6,13 @@
     <key>CFBundleExecutable</key>
     <string>${EXECUTABLE_NAME}</string>
     <key>CFBundleIconFile</key>
-    <string></string>
+    <string>Icon.icns</string>
     <key>CFBundleIdentifier</key>
-    <string>com.yourcompany.RomanNumeralChordIdentifier</string>
+    <string>com.yourcompany.ChordIdentifier</string>
     <key>CFBundleName</key>
-    <string>RomanNumeralChordIdentifier</string>
+    <string>Chord Identifier</string>
     <key>CFBundleDisplayName</key>
-    <string>RomanNumeralChordIdentifier</string>
+    <string>Chord Identifier</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleSignature</key>
