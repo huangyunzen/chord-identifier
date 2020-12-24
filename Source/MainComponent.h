@@ -3,6 +3,9 @@
 #include <JuceHeader.h>
 #include "ChordComponent.h"
 
+#define DEFAULT_KEYBOARD_WIDTH_PIXELS 1200
+#define DEFAULT_NUM_WHITE_KEYS 75
+
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
@@ -56,6 +59,8 @@ private:
     
     juce::ComboBox keyList;
     juce::Label keyListLabel;
+    
+    // keys from 0-15 are sharp, 16-30 are flat
     const juce::StringArray keyArray =
     {
         juce::String (juce::CharPointer_UTF8 ("C major")),

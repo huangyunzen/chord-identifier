@@ -48,7 +48,7 @@ public:
         This class implements the desktop window that contains an instance of
         our MainComponent class.
     */
-    class MainWindow    : public juce::DocumentWindow
+    class MainWindow : public juce::DocumentWindow
     {
     public:
         MainWindow (juce::String name)
@@ -64,7 +64,7 @@ public:
             setFullScreen (true);
            #else
             setResizable (true, false);
-            setResizeLimits (300, 250, 10000, 10000);
+            setResizeLimits (350, 233, 10000, 10000);
             centreWithSize (getWidth(), getHeight());
            #endif
 

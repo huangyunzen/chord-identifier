@@ -79,14 +79,19 @@ void MainComponent::resized()
     // This is called when the MainComponent is resized.
     // If you add any child components, this is where you should
     // update their positions.
-    auto area = getLocalBounds();
 
-    midiInputList.setBounds (80, 0, 120, 25);
-    keyList.setBounds (250, 0, 80, 25);
-    /*scaleDegreeBox   .setBoundsRelative (0.4f, 0.2f, 0.2f, 0.43f);
-    intervalBox      .setBoundsRelative (0.6f, 0.08f, 0.15f, 0.65f);*/
-    chordBox.setBoundsRelative (0.35f, 0.08f, 0.425f, 0.65f);
-    keyboardComponent.setBounds (area.removeFromBottom (80));
+    midiInputList.setBounds (80, 0, 120, 24);
+    keyList.setBounds (250, 0, 85, 24);
+    
+    // keyboardComponent takes up 20% of the window
+    keyboardComponent.setBoundsRelative (0.0f, 0.8f, 1.0f, 0.2f);
+    if (keyboardComponent.getParentWidth() > DEFAULT_KEYBOARD_WIDTH_PIXELS)
+    {
+        keyboardComponent.setKeyWidth ((float)keyboardComponent.getParentWidth() / (float)DEFAULT_NUM_WHITE_KEYS);
+    }
+    
+    auto area = getBounds();
+    chordBox.setBounds (area.getWidth() * 0.3167, area.getHeight() * 0.225f + 12, area.getWidth() * 0.3667, area.getHeight() * 0.35);
 }
 
 //==============================================================================
