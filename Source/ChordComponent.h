@@ -9,7 +9,7 @@
 #define INTERVAL_WIDTH_TO_HEIGHT_RATIO 0.38f
 
 // estimate for the width of the parent component with relation to the height
-#define WIDTH_TO_HEIGHT_RATIO 1.5715f
+#define WIDTH_TO_HEIGHT_RATIO 1.8286f
 
 // font size and TextEditor height has a difference of 5
 #define FONT_SIZE_AND_HEIGHT_DIFF 5
@@ -19,14 +19,29 @@
 //-----Chord Names-----
 enum class Chord : char
 {
+//-----Triads-----
     MajTriadRoot,
     MajTriadFirst,
     MajTriadSecond,
     MinTriadRoot,
     MinTriadFirst,
-    MinTriadSecond,
     AugTriadRoot,
     DimTriadRoot,
+    DimTriadFirst,
+//------------------
+    SeventhRoot,
+    SeventhFirst,
+    SeventhSecond,
+    SeventhThird,
+    DimSeventh,
+    HalfDimSeventhRoot,
+    HalfDimSeventhFirst,
+    HalfDimSeventhSecond,
+    HalfDimSeventhThird,
+    MinSeventhRoot,
+    MinSeventhFirst,
+    MinSeventhSecond,
+    MinSeventhThird,
     Sus542
 };
 
@@ -78,6 +93,7 @@ private:
     juce::TextEditor romanNumeralBox;
     juce::TextEditor intervalBox;
     juce::TextEditor accidentalBox;
+    juce::TextEditor diminishedBox;
     
     // any chord would be in the context of a key
     // default is 0 (no key is set)
@@ -108,9 +124,22 @@ private:
         {std::vector<int> {5, 9}, Chord::MajTriadSecond},
         {std::vector<int> {3, 7}, Chord::MinTriadRoot},
         {std::vector<int> {4, 9}, Chord::MinTriadFirst},
-        {std::vector<int> {5, 8}, Chord::MinTriadSecond},
         {std::vector<int> {4, 8}, Chord::AugTriadRoot},
         {std::vector<int> {3, 6}, Chord::DimTriadRoot},
+        {std::vector<int> {3, 9}, Chord::DimTriadFirst},
+        {std::vector<int> {4, 7, 10}, Chord::SeventhRoot},
+        {std::vector<int> {3, 6, 8}, Chord::SeventhFirst},
+        {std::vector<int> {3, 5, 9}, Chord::SeventhSecond},
+        {std::vector<int> {2, 6, 9}, Chord::SeventhThird},
+        {std::vector<int> {3, 6, 9}, Chord::DimSeventh},
+        {std::vector<int> {3, 6, 10}, Chord::HalfDimSeventhRoot},
+        {std::vector<int> {3, 7, 9}, Chord::HalfDimSeventhFirst},
+        {std::vector<int> {4, 6, 9}, Chord::HalfDimSeventhSecond},
+        {std::vector<int> {2, 5, 8}, Chord::HalfDimSeventhThird},
+        {std::vector<int> {3, 7, 10}, Chord::MinSeventhRoot},
+        {std::vector<int> {4, 7, 9}, Chord::MinSeventhFirst},
+        {std::vector<int> {3, 5, 8}, Chord::MinSeventhSecond},
+        {std::vector<int> {2, 5, 9}, Chord::MinSeventhThird},
         {std::vector<int> {2, 5, 7}, Chord::Sus542}
     };
     

@@ -57,6 +57,8 @@ MainComponent::MainComponent()
     
     addAndMakeVisible (keyboardComponent);
     keyboardComponent.setOctaveForMiddleC (4);
+    keyboardComponent.setColour (juce::MidiKeyboardComponent::keyDownOverlayColourId, juce::Colours::cornflowerblue);
+    keyboardComponent.setColour (juce::MidiKeyboardComponent::mouseOverKeyOverlayColourId, juce::Colours::skyblue);
     keyboardState.addListener (this);
     
     setSize (600, 400);
@@ -91,7 +93,7 @@ void MainComponent::resized()
     }
     
     auto area = getBounds();
-    chordBox.setBounds (area.getWidth() * 0.3167, area.getHeight() * 0.225f + 12, area.getWidth() * 0.3667, area.getHeight() * 0.35);
+    chordBox.setBounds (area.getWidth() * 0.2867, area.getHeight() * 0.225f + 12, area.getWidth() * 0.4267, area.getHeight() * 0.35);
 }
 
 //==============================================================================

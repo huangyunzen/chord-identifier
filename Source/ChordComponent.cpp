@@ -37,13 +37,23 @@ ChordComponent::ChordComponent()
         intervalBox.setTopLeftPosition (romanNumeralBox.getRight(), romanNumeralBox.getY());
     };
     
-    //set up left box to display any accidentals the bass has
+    // set up left box to display any accidentals the bass has
     initBox (&accidentalBox);
     addAndMakeVisible (accidentalBox);
     accidentalBox.onTextChange = [this]
     {
         accidentalBox.setSize (accidentalBox.getTextWidth(), accidentalBox.getTextHeight());
         accidentalBox.setTopRightPosition (romanNumeralBox.getX(), romanNumeralBox.getY());
+    };
+    
+    // set up second right box in between intervalBox and romanNumeralBox to display diminished/augmented status
+    initBox (&diminishedBox);
+    addAndMakeVisible (diminishedBox);
+    diminishedBox.onTextChange = [this]
+    {
+        diminishedBox.setSize (diminishedBox.getTextWidth(), diminishedBox.getTextHeight());
+        diminishedBox.setTopLeftPosition (romanNumeralBox.getRight(), romanNumeralBox.getY());
+        intervalBox.setTopLeftPosition (diminishedBox.getRight(), diminishedBox.getY());
     };
 }
 
@@ -72,7 +82,15 @@ void ChordComponent::resized()
     romanNumeralBox.setCentrePosition (romanNumeralBox.getParentWidth() / 2, romanNumeralBox.getParentHeight() / 2);
     
     intervalBox.setSize (romanNumeralBox.getTextHeight() * INTERVAL_WIDTH_TO_HEIGHT_RATIO, romanNumeralBox.getTextHeight());
-    intervalBox.setTopLeftPosition (romanNumeralBox.getRight(), romanNumeralBox.getY());
+    if (diminishedBox.getWidth() == 0)
+    {
+        intervalBox.setTopLeftPosition (romanNumeralBox.getRight(), romanNumeralBox.getY());
+    } else
+    {
+        diminishedBox.setSize (diminishedBox.getTextWidth(), diminishedBox.getTextHeight());
+        diminishedBox.setTopLeftPosition (romanNumeralBox.getRight(), romanNumeralBox.getY());
+        intervalBox.setTopLeftPosition (diminishedBox.getRight(), diminishedBox.getY());
+    }
     
     accidentalBox.setSize (accidentalBox.getTextWidth(), accidentalBox.getTextHeight());
     accidentalBox.setTopRightPosition (romanNumeralBox.getX(), romanNumeralBox.getY());
@@ -123,6 +141,9 @@ void ChordComponent::setFonts()
     intervalBox.applyFontToAllText (juce::Font ("Arial Unicode MS", intervalFontSize, juce::Font::plain));
     
     accidentalBox.applyFontToAllText (juce::Font ("Arial Unicode MS", chordFontSize, juce::Font::plain));
+    
+    float diminishedFontSize = (chordFontSize + FONT_SIZE_AND_HEIGHT_DIFF)/2 - FONT_SIZE_AND_HEIGHT_DIFF;
+    diminishedBox.applyFontToAllText (juce::Font ("Arial Unicode MS", diminishedFontSize, juce::Font::plain));
 }
 
 void ChordComponent::clearAll()
@@ -133,9 +154,11 @@ void ChordComponent::clearAll()
     romanNumeralBox.setText (juce::String (" "));
     intervalBox.setText (juce::String (" "));
     accidentalBox.setText (juce::String (" "));
+    diminishedBox.setText (juce::String (" "));
     romanNumeralBox.setSize (0, 0);
     intervalBox.setSize (0, 0);
     accidentalBox.setSize (0, 0);
+    diminishedBox.setSize (0, 0);
 }
 
 void ChordComponent::constructIntervals()
@@ -169,48 +192,123 @@ void ChordComponent::identify()
         return;
     }
     
-    int scaleDegreeOfKey = keyToScaleDegree[key - 1] + 12;
+    int chromaticDegree = chord[0] + 12 - keyToScaleDegree[key - 1];
     switch (it->second)
     {
         case Chord::MajTriadRoot:
-            drawRomanNum ((chord[0] - scaleDegreeOfKey) % 12, true);
+            drawRomanNum (chromaticDegree % 12, true);
             break;
         case Chord::MajTriadFirst:
-            drawRomanNum ((chord[0] + 8 - scaleDegreeOfKey) % 12, true);
+            drawRomanNum ((chromaticDegree + 8) % 12, true);
             intervalBox.setText (juce::String ("6"));
             break;
         case Chord::MajTriadSecond:
-            if ((chord[0] + 5 - scaleDegreeOfKey) % 12 == 0)
+            if ((chromaticDegree + 5) % 12 == 0)
             {
                 // cadential 6-4 is a V chord
                 drawRomanNum (7, true);
-            } else
+            }
+            else
             {
-                drawRomanNum ((chord[0] + 5 - scaleDegreeOfKey) % 12, true);
+                drawRomanNum ((chromaticDegree + 5) % 12, true);
             }
             intervalBox.setText (juce::String ("6\n4"));
             break;
         case Chord::MinTriadRoot:
-            drawRomanNum ((chord[0] - scaleDegreeOfKey) % 12, false);
+            drawRomanNum (chromaticDegree % 12, false);
             break;
         case Chord::MinTriadFirst:
-            drawRomanNum ((chord[0] + 9 - scaleDegreeOfKey) % 12, false);
+            drawRomanNum ((chromaticDegree + 9) % 12, false);
             intervalBox.setText (juce::String ("6"));
             break;
-        case Chord::MinTriadSecond:
-            drawRomanNum ((chord[0] + 5 - scaleDegreeOfKey) % 12, false);
-            intervalBox.setText (juce::String ("6\n4"));
-            break;
         case Chord::AugTriadRoot:
-            drawRomanNum ((chord[0] - scaleDegreeOfKey) % 12, true);
-            intervalBox.setText (juce::String ("+"));
+            drawRomanNum (chromaticDegree % 12, true);
+            diminishedBox.setText (juce::String ("+"));
             break;
         case Chord::DimTriadRoot:
-            drawRomanNum ((chord[0] - scaleDegreeOfKey) % 12, false);
-            intervalBox.setText (juce::String ("o"));
+            drawRomanNum (chromaticDegree % 12, false);
+            diminishedBox.setText (juce::String ("o"));
+            break;
+        case Chord::DimTriadFirst:
+            drawRomanNum ((chromaticDegree + 9) % 12, false);
+            intervalBox.setText (juce::String ("6"));
+            diminishedBox.setText (juce::String ("o"));
+            break;
+        case Chord::SeventhRoot:
+            drawRomanNum (chromaticDegree % 12, true);
+            intervalBox.setText (juce::String ("7"));
+            break;
+        case Chord::SeventhFirst:
+            drawRomanNum ((chromaticDegree + 8) % 12, true);
+            intervalBox.setText (juce::String ("6\n5"));
+            break;
+        case Chord::SeventhSecond:
+            drawRomanNum ((chromaticDegree + 5) % 12, true);
+            intervalBox.setText (juce::String ("4\n3"));
+            break;
+        case Chord::SeventhThird:
+            drawRomanNum ((chromaticDegree + 2) % 12, true);
+            intervalBox.setText (juce::String ("4\n2"));
+            break;
+        case Chord::DimSeventh:
+            switch (chromaticDegree % 12)
+            {
+                case 11:
+                    intervalBox.setText (juce::String ("7"));
+                    break;
+                case 2:
+                    intervalBox.setText (juce::String ("6\n5"));
+                    break;
+                case 5:
+                    intervalBox.setText (juce::String ("4\n3"));
+                    break;
+                case 8:
+                    intervalBox.setText (juce::String ("4\n2"));
+                    break;
+                default:
+                    return;
+            }
+            drawRomanNum (11, false);
+            diminishedBox.setText (juce::String ("o"));
+            break;
+        case Chord::HalfDimSeventhRoot:
+            drawRomanNum (chromaticDegree % 12, false);
+            intervalBox.setText (juce::String ("7"));
+            diminishedBox.setText (juce::String (juce::CharPointer_UTF8 ("\xc3\xb8")));
+            break;
+        case Chord::HalfDimSeventhFirst:
+            drawRomanNum ((chromaticDegree + 9) % 12, false);
+            intervalBox.setText (juce::String ("6\n5"));
+            diminishedBox.setText (juce::String (juce::CharPointer_UTF8 ("\xc3\xb8")));
+            break;
+        case Chord::HalfDimSeventhSecond:
+            drawRomanNum ((chromaticDegree + 6) % 12, false);
+            intervalBox.setText (juce::String ("4\n3"));
+            diminishedBox.setText (juce::String (juce::CharPointer_UTF8 ("\xc3\xb8")));
+            break;
+        case Chord::HalfDimSeventhThird:
+            drawRomanNum ((chromaticDegree + 2) % 12, false);
+            intervalBox.setText (juce::String ("4\n2"));
+            diminishedBox.setText (juce::String (juce::CharPointer_UTF8 ("\xc3\xb8")));
+            break;
+        case Chord::MinSeventhRoot:
+            drawRomanNum (chromaticDegree % 12, false);
+            intervalBox.setText (juce::String ("7"));
+            break;
+        case Chord::MinSeventhFirst:
+            drawRomanNum ((chromaticDegree + 9) % 12, false);
+            intervalBox.setText (juce::String ("6\n5"));
+            break;
+        case Chord::MinSeventhSecond:
+            drawRomanNum ((chromaticDegree + 5) % 12, false);
+            intervalBox.setText (juce::String ("4\n3"));
+            break;
+        case Chord::MinSeventhThird:
+            drawRomanNum ((chromaticDegree + 2) % 12, false);
+            intervalBox.setText (juce::String ("4\n2"));
             break;
         case Chord::Sus542:
-            drawRomanNum ((chord[0] - scaleDegreeOfKey) % 12, true);
+            drawRomanNum (chromaticDegree % 12, true);
             numIntervals = 3;
             intervalBox.setText (juce::String ("5\n4\n2"));
             break;
@@ -222,15 +320,17 @@ void ChordComponent::identify()
     }
 }
 
-void ChordComponent::drawRomanNum (const int romanNumeral, const bool capital)
+void ChordComponent::drawRomanNum (const int chromaticDegree, const bool capital)
 {
-    // draws a capital roman numeral depending on major or minor third
-    // if key is flat (16-30), draw a sharp key with the lower roman numeral
-    // if key is sharp (0-15), including C maj/a min, draw a flat key with the higher roman numeral
-    // e.g. B-D-F in the key of F (flat) would have a sharp beside the roman numeral iv,
-    // instead of a flat beside the roman numeral v
+    // draws a capital roman numeral depending on chord having major or minor third
+    // for 3, 8 semitones (minor third and sixth), draw a flat if key is major
+    // for 4, 9 semitones (major third and sixth), draw a sharp if key is minor
+    // for 6 semitones, it forms a dim. fifth for sharp keys (including C major/a minor),
+    // otherwise for flat keys it forms a aug. fourth
     
-    switch (romanNumeral)
+    const bool major = key % 2;
+    
+    switch (chromaticDegree)
     {
         case 0:
             if (capital)
@@ -242,29 +342,15 @@ void ChordComponent::drawRomanNum (const int romanNumeral, const bool capital)
             }
             break;
         case 1:
-            if (key > 15)
+            if (capital)
             {
-                if (capital)
-                {
-                    romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xa0")));
+                romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xa1")));
 
-                } else
-                {
-                    romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xb0")));
-                }
-                accidentalBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x99\xaf")));
             } else
             {
-                if (capital)
-                {
-                    romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xa1")));
-
-                } else
-                {
-                    romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xb1")));
-                }
-                accidentalBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x99\xad")));
+                romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xb1")));
             }
+            accidentalBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x99\xad")));
             break;
         case 2:
             if (capital)
@@ -276,28 +362,18 @@ void ChordComponent::drawRomanNum (const int romanNumeral, const bool capital)
             }
             break;
         case 3:
-            if (key > 15)
+            if (capital)
             {
-                if (capital)
-                {
-                    romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xa1")));
+                romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xa2")));
 
-                } else
-                {
-                    romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xb1")));
-                }
-                accidentalBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x99\xaf")));
             } else
             {
-                if (capital)
-                {
-                    romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xa2")));
-
-                } else
-                {
-                    romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xb2")));
-                }
+                romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xb2")));
+            }
+            if (major)
+            {
                 accidentalBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x99\xad")));
+                
             }
             break;
         case 4:
@@ -307,6 +383,10 @@ void ChordComponent::drawRomanNum (const int romanNumeral, const bool capital)
             } else
             {
                 romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xb2")));
+            }
+            if (!major)
+            {
+                accidentalBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x99\xaf")));
             }
             break;
         case 5:
@@ -319,7 +399,7 @@ void ChordComponent::drawRomanNum (const int romanNumeral, const bool capital)
             }
             break;
         case 6:
-            if (key > 15)
+            if (key > 15)  // flat keys
             {
                 if (capital)
                 {
@@ -330,7 +410,7 @@ void ChordComponent::drawRomanNum (const int romanNumeral, const bool capital)
                     romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xb3")));
                 }
                 accidentalBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x99\xaf")));
-            } else
+            } else  // sharp keys
             {
                 if (capital)
                 {
@@ -353,28 +433,18 @@ void ChordComponent::drawRomanNum (const int romanNumeral, const bool capital)
             }
             break;
         case 8:
-            if (key > 15)
+            if (capital)
             {
-                if (capital)
-                {
-                    romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xa4")));
+                romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xa5")));
 
-                } else
-                {
-                    romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xb4")));
-                }
-                accidentalBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x99\xaf")));
             } else
             {
-                if (capital)
-                {
-                    romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xa5")));
-
-                } else
-                {
-                    romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xb5")));
-                }
+                romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xb5")));
+            }
+            if (major)
+            {
                 accidentalBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x99\xad")));
+                
             }
             break;
         case 9:
@@ -385,31 +455,21 @@ void ChordComponent::drawRomanNum (const int romanNumeral, const bool capital)
             {
                 romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xb5")));
             }
+            if (!major)
+            {
+                accidentalBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x99\xaf")));
+            }
             break;
         case 10:
-            if (key > 15)
+            if (capital)
             {
-                if (capital)
-                {
-                    romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xa5")));
+                romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xa6")));
 
-                } else
-                {
-                    romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xb5")));
-                }
-                accidentalBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x99\xaf")));
             } else
             {
-                if (capital)
-                {
-                    romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xa6")));
-
-                } else
-                {
-                    romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xb6")));
-                }
-                accidentalBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x99\xad")));
+                romanNumeralBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x85\xb6")));
             }
+            accidentalBox.setText (juce::String (juce::CharPointer_UTF8 ("\xe2\x99\xad")));
             break;
         case 11:
             if (capital)
