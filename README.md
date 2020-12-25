@@ -1,2 +1,3 @@
-# chord-identifier
-Identifies chords in roman numeral and figured bass notation when played on a midi keyboard in real-time.
+# Chord Identifier
+Chord Identifier displays chords using roman numeral and figured bass notation in real-time when played on a MIDI keyboard.
+![alt text](https://github.com/huangyunzen/chord-identifier/blob/master/sample.png)
