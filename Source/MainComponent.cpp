@@ -58,7 +58,7 @@ MainComponent::MainComponent()
     addAndMakeVisible (keyboardComponent);
     keyboardComponent.setOctaveForMiddleC (4);
     keyboardComponent.setColour (juce::MidiKeyboardComponent::keyDownOverlayColourId, juce::Colours::cornflowerblue);
-    keyboardComponent.setColour (juce::MidiKeyboardComponent::mouseOverKeyOverlayColourId, juce::Colours::skyblue);
+    keyboardComponent.setColour (juce::MidiKeyboardComponent::mouseOverKeyOverlayColourId, juce::Colours::lightsteelblue);
     keyboardState.addListener (this);
     
     setSize (600, 400);

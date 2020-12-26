@@ -41,8 +41,7 @@ enum class Chord : char
     MinSeventhRoot,
     MinSeventhFirst,
     MinSeventhSecond,
-    MinSeventhThird,
-    Sus542
+    MinSeventhThird
 };
 
 // taken from https://stackoverflow.com/questions/20511347/a-good-hash-function-for-a-vector
@@ -139,8 +138,7 @@ private:
         {std::vector<int> {3, 7, 10}, Chord::MinSeventhRoot},
         {std::vector<int> {4, 7, 9}, Chord::MinSeventhFirst},
         {std::vector<int> {3, 5, 8}, Chord::MinSeventhSecond},
-        {std::vector<int> {2, 5, 9}, Chord::MinSeventhThird},
-        {std::vector<int> {2, 5, 7}, Chord::Sus542}
+        {std::vector<int> {2, 5, 9}, Chord::MinSeventhThird}
     };
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ChordComponent)

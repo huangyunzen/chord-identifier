@@ -307,11 +307,6 @@ void ChordComponent::identify()
             drawRomanNum ((chromaticDegree + 2) % 12, false);
             intervalBox.setText (juce::String ("4\n2"));
             break;
-        case Chord::Sus542:
-            drawRomanNum (chromaticDegree % 12, true);
-            numIntervals = 3;
-            intervalBox.setText (juce::String ("5\n4\n2"));
-            break;
         default:
             // should not be run
             std::cerr << "Hash error";
