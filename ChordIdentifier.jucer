@@ -4,6 +4,7 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="wSrVHS" name="Chord Identifier">
     <GROUP id="{87AB27A0-7C94-FE39-89F5-D95CA3BB81A6}" name="Source">
+      <FILE id="ckjGo5" name="icon.png" compile="0" resource="1" file="Assets/icon.png"/>
       <FILE id="uB9iII" name="ChordComponent.cpp" compile="1" resource="0"
             file="Source/ChordComponent.cpp"/>
       <FILE id="MieVUR" name="ChordComponent.h" compile="0" resource="0"
@@ -13,11 +14,10 @@
       <FILE id="eL27m4" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
     </GROUP>
-    <FILE id="rD96p8" name="icon.png" compile="0" resource="1" file="../../../Desktop/icon.png"/>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX" bigIcon="rD96p8">
+    <XCODE_MAC targetFolder="Builds/MacOSX" bigIcon="ckjGo5">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="Chord Identifier"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="Chord Identifier"/>
