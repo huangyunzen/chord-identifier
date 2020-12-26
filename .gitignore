@@ -5,3 +5,5 @@
 Builds/
 JuceLibraryCode/BinaryData*.cpp
 JuceLibraryCode/BinaryData.h
+
+notes.txt
