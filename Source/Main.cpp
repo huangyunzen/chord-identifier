@@ -107,7 +107,7 @@ private:
 
         static const juce::Font getCustomFont()
         {
-            static auto typeface = juce::Typeface::createSystemTypefaceFor (BinaryData::ArialUnicode_ttf, BinaryData::ArialUnicode_ttfSize);
+            static auto typeface = juce::Typeface::createSystemTypefaceFor (BinaryData::CustomMZBuenard_ttf, BinaryData::CustomMZBuenard_ttfSize);
             return juce::Font (typeface);
         }
 

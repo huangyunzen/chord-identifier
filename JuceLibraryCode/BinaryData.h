@@ -8,11 +8,11 @@
 
 namespace BinaryData
 {
-    extern const char*   ArialUnicode_ttf;
-    const int            ArialUnicode_ttfSize = 23278008;
+    extern const char*   CustomMZBuenard_ttf;
+    const int            CustomMZBuenard_ttfSize = 25544;
 
     extern const char*   icon_png;
-    const int            icon_pngSize = 60293;
+    const int            icon_pngSize = 57735;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
     const int namedResourceListSize = 2;
