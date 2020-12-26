@@ -33,7 +33,7 @@ ChordComponent::ChordComponent()
         // set new font size for interalBox according to the numbers needed to be displayed
         float intervalFontSize = (chordFontSize + FONT_SIZE_AND_HEIGHT_DIFF)/numIntervals - FONT_SIZE_AND_HEIGHT_DIFF;
         intervalBox.applyFontToAllText (juce::Font ("Arial Unicode MS", intervalFontSize, juce::Font::plain));
-        intervalBox.setSize (romanNumeralBox.getTextHeight() * INTERVAL_WIDTH_TO_HEIGHT_RATIO, romanNumeralBox.getTextHeight());
+        intervalBox.setSize (static_cast<int>(romanNumeralBox.getTextHeight() * INTERVAL_WIDTH_TO_HEIGHT_RATIO), romanNumeralBox.getTextHeight());
         intervalBox.setTopLeftPosition (romanNumeralBox.getRight(), romanNumeralBox.getY());
     };
     
@@ -59,8 +59,6 @@ ChordComponent::ChordComponent()
 
 ChordComponent::~ChordComponent() {}
 
-void ChordComponent::paint (juce::Graphics& g) {}
-
 void ChordComponent::resized()
 {
     // This method is where you should set the bounds of any child
@@ -68,8 +66,8 @@ void ChordComponent::resized()
     
     // set chordFontSize to be proportional to the size of the parent (chordBox)
     // but be careful not to have a font size too big that doesn't fit inside the parent
-    chordFontSize = romanNumeralBox.getParentHeight() - FONT_SIZE_AND_HEIGHT_DIFF;
-    int totalWidthOfBoxes = romanNumeralBox.getParentHeight() * WIDTH_TO_HEIGHT_RATIO;
+    chordFontSize = static_cast<float>(romanNumeralBox.getParentHeight() - FONT_SIZE_AND_HEIGHT_DIFF);
+    int totalWidthOfBoxes = static_cast<int>(romanNumeralBox.getParentHeight() * WIDTH_TO_HEIGHT_RATIO);
     if (totalWidthOfBoxes > romanNumeralBox.getParentWidth())
     {
         chordFontSize = romanNumeralBox.getParentWidth() / WIDTH_TO_HEIGHT_RATIO - FONT_SIZE_AND_HEIGHT_DIFF;
@@ -81,7 +79,7 @@ void ChordComponent::resized()
     romanNumeralBox.setSize (romanNumeralBox.getTextWidth(), romanNumeralBox.getTextHeight());
     romanNumeralBox.setCentrePosition (romanNumeralBox.getParentWidth() / 2, romanNumeralBox.getParentHeight() / 2);
     
-    intervalBox.setSize (romanNumeralBox.getTextHeight() * INTERVAL_WIDTH_TO_HEIGHT_RATIO, romanNumeralBox.getTextHeight());
+    intervalBox.setSize (static_cast<int>(romanNumeralBox.getTextHeight() * INTERVAL_WIDTH_TO_HEIGHT_RATIO), romanNumeralBox.getTextHeight());
     if (diminishedBox.getWidth() == 0)
     {
         intervalBox.setTopLeftPosition (romanNumeralBox.getRight(), romanNumeralBox.getY());
@@ -165,6 +163,12 @@ void ChordComponent::constructIntervals()
 {
     // clear all intervals and boxes to erase any previous chord data
     clearAll();
+
+    // return if chord has less than 3 notes
+    if (chord.size() < 3)
+    {
+        return;
+    }
     
     for (int bassNote = chord[0], i = 1; i < chord.size(); ++i)
     {

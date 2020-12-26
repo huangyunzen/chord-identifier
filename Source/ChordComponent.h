@@ -3,6 +3,7 @@
 #include <JuceHeader.h>
 #include <algorithm>
 #include <unordered_map>
+#include <vector>
 
 // multiline TextEditor doesn't support getTextWidth(), so we need INTERVAL_WIDTH_TO_HEIGHT_RATIO
 // as an estimate for the interval width
@@ -64,7 +65,6 @@ public:
     ChordComponent();
     ~ChordComponent() override;
 
-    void paint (juce::Graphics&) override;
     void resized() override;
     
     int getKey() const;

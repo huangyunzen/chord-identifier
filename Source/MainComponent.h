@@ -29,7 +29,7 @@ private:
     //==============================================================================
     void setMidiInput (int index);
     
-    void handleIncomingMidiMessage (juce::MidiInput* source, const juce::MidiMessage& message) override;
+    void handleIncomingMidiMessage (juce::MidiInput* /*source*/, const juce::MidiMessage& message) override;
     
     void handleNoteOn (juce::MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override;
     

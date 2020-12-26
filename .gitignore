@@ -1,5 +1,5 @@
 # macOS
 .DS_Store
 
-# Executables
-*.app
+# Build files
+Builds/

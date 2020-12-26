@@ -93,7 +93,11 @@ void MainComponent::resized()
     }
     
     auto area = getBounds();
-    chordBox.setBounds (area.getWidth() * 0.2867, area.getHeight() * 0.225f + 12, area.getWidth() * 0.4267, area.getHeight() * 0.35);
+    int startWidth = static_cast<int>(area.getWidth() * 0.2867);
+    int startHeight = static_cast<int>(area.getHeight() * 0.225f + 12);
+    int boxWidth = static_cast<int>(area.getWidth() * 0.4267);
+    int boxHeight = static_cast<int>(area.getHeight() * 0.35);
+    chordBox.setBounds (startWidth, startHeight, boxWidth, boxHeight);
 }
 
 //==============================================================================
@@ -118,7 +122,7 @@ void MainComponent::setMidiInput (int index)
 }
 
 // These methods handle callbacks from the midi device + on-screen keyboard..
-void MainComponent::handleIncomingMidiMessage (juce::MidiInput* source, const juce::MidiMessage& message)
+void MainComponent::handleIncomingMidiMessage (juce::MidiInput* /*source*/, const juce::MidiMessage& message)
 {
     const juce::ScopedValueSetter<bool> scopedInputFlag (isAddingFromMidiInput, true);
     keyboardState.processNextMidiEvent (message);
