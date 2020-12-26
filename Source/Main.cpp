@@ -111,7 +111,7 @@ private:
             return juce::Font (typeface);
         }
 
-        juce::Typeface::Ptr getTypefaceForFont (const juce::Font& f) override
+        juce::Typeface::Ptr getTypefaceForFont (const juce::Font& /*f*/) override
         {
             // This can be used to fully change/inject fonts.
             // For example: return different TTF/OTF based on weight of juce::Font (bold/italic/etc)
