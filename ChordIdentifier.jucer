@@ -4,6 +4,8 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="wSrVHS" name="Chord Identifier">
     <GROUP id="{87AB27A0-7C94-FE39-89F5-D95CA3BB81A6}" name="Source">
+      <FILE id="LjYI4H" name="ArialUnicode.ttf" compile="0" resource="1"
+            file="Assets/ArialUnicode.ttf"/>
       <FILE id="ckjGo5" name="icon.png" compile="0" resource="1" file="Assets/icon.png"/>
       <FILE id="uB9iII" name="ChordComponent.cpp" compile="1" resource="0"
             file="Source/ChordComponent.cpp"/>

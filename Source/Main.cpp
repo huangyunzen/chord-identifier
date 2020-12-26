@@ -24,7 +24,7 @@ public:
     {
         // This method is where you should put your application's initialisation code..
 
-        juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName ("Arial Unicode MS");
+        juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface (customLookAndFeel.getCustomFont().getTypeface());
         mainWindow.reset (new MainWindow (getApplicationName()));
     }
 
@@ -92,6 +92,32 @@ public:
 
 private:
     std::unique_ptr<MainWindow> mainWindow;
+    
+    class CustomFontLookAndFeel : public juce::LookAndFeel_V4
+    {
+    public:
+        CustomFontLookAndFeel()
+        {
+            // without this custom Fonts won't work!!
+            LookAndFeel::setDefaultLookAndFeel (this);
+
+            // This can be used as one way of setting a default font
+            // setDefaultSansSerifTypeface (getCustomFont().getTypeface());
+        }
+
+        static const juce::Font getCustomFont()
+        {
+            static auto typeface = juce::Typeface::createSystemTypefaceFor (BinaryData::ArialUnicode_ttf, BinaryData::ArialUnicode_ttfSize);
+            return juce::Font (typeface);
+        }
+
+        juce::Typeface::Ptr getTypefaceForFont (const juce::Font& f) override
+        {
+            // This can be used to fully change/inject fonts.
+            // For example: return different TTF/OTF based on weight of juce::Font (bold/italic/etc)
+            return getCustomFont().getTypeface();
+        }
+    } customLookAndFeel;
 };
 
 //==============================================================================

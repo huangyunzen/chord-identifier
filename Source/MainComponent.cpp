@@ -66,6 +66,7 @@ MainComponent::MainComponent()
 
 MainComponent::~MainComponent()
 {
+    setLookAndFeel (nullptr);
     keyboardState.removeListener (this);
     deviceManager.removeMidiInputDeviceCallback (juce::MidiInput::getAvailableDevices()[midiInputList.getSelectedItemIndex()].identifier, this);
 }
@@ -147,18 +148,6 @@ void MainComponent::handleNoteOff (juce::MidiKeyboardState*, int midiChannel, in
     }
 }
 
-MainComponent::IncomingMessageCallback::IncomingMessageCallback (MainComponent* o, const juce::MidiMessage& m)
-  : owner (o), message (m)
-{}
-
-void MainComponent::IncomingMessageCallback::messageCallback()
-{
-    if (owner != nullptr)
-    {
-        owner->addMessage (message);
-    }
-}
-
 void MainComponent::postMessage (const juce::MidiMessage& message)
 {
     (new IncomingMessageCallback (this, message))->post();
@@ -180,4 +169,3 @@ void MainComponent::addMessage (const juce::MidiMessage& message)
         chordBox.removeNote (message.getNoteNumber());
     }
 }
-

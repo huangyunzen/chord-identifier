@@ -32,7 +32,7 @@ ChordComponent::ChordComponent()
     {
         // set new font size for interalBox according to the numbers needed to be displayed
         float intervalFontSize = (chordFontSize + FONT_SIZE_AND_HEIGHT_DIFF)/numIntervals - FONT_SIZE_AND_HEIGHT_DIFF;
-        intervalBox.applyFontToAllText (juce::Font ("Arial Unicode MS", intervalFontSize, juce::Font::plain));
+        intervalBox.applyFontToAllText (juce::Font (intervalFontSize, juce::Font::plain));
         intervalBox.setSize (static_cast<int>(romanNumeralBox.getTextHeight() * INTERVAL_WIDTH_TO_HEIGHT_RATIO), romanNumeralBox.getTextHeight());
         intervalBox.setTopLeftPosition (romanNumeralBox.getRight(), romanNumeralBox.getY());
     };
@@ -132,16 +132,16 @@ void ChordComponent::initBox(juce::TextEditor *box)
 
 void ChordComponent::setFonts()
 {
-    romanNumeralBox.applyFontToAllText (juce::Font ("Arial Unicode MS", chordFontSize, juce::Font::plain));
+    romanNumeralBox.applyFontToAllText (juce::Font (chordFontSize, juce::Font::plain));
     
     // intervalFontSize set up to divide the height of the box into equal proportions of 2, 3, or 4
     float intervalFontSize = (chordFontSize + FONT_SIZE_AND_HEIGHT_DIFF)/numIntervals - FONT_SIZE_AND_HEIGHT_DIFF;
-    intervalBox.applyFontToAllText (juce::Font ("Arial Unicode MS", intervalFontSize, juce::Font::plain));
+    intervalBox.applyFontToAllText (juce::Font (intervalFontSize, juce::Font::plain));
     
-    accidentalBox.applyFontToAllText (juce::Font ("Arial Unicode MS", chordFontSize, juce::Font::plain));
+    accidentalBox.applyFontToAllText (juce::Font (chordFontSize, juce::Font::plain));
     
     float diminishedFontSize = (chordFontSize + FONT_SIZE_AND_HEIGHT_DIFF)/2 - FONT_SIZE_AND_HEIGHT_DIFF;
-    diminishedBox.applyFontToAllText (juce::Font ("Arial Unicode MS", diminishedFontSize, juce::Font::plain));
+    diminishedBox.applyFontToAllText (juce::Font (diminishedFontSize, juce::Font::plain));
 }
 
 void ChordComponent::clearAll()

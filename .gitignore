@@ -3,3 +3,5 @@
 
 # Build files
 Builds/
+JuceLibraryCode/BinaryData*.cpp
+JuceLibraryCode/BinaryData.h

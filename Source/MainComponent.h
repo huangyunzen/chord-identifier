@@ -38,9 +38,17 @@ private:
     class IncomingMessageCallback : public juce::CallbackMessage
     {
     public:
-        IncomingMessageCallback(MainComponent* o, const juce::MidiMessage& m);
+        IncomingMessageCallback(MainComponent* o, const juce::MidiMessage& m)
+          : owner (o), message (m)
+        {}
         
-        void messageCallback() override;
+        void messageCallback() override
+        {
+            if (owner != nullptr)
+            {
+                owner->addMessage (message);
+            }
+        }
         
         Component::SafePointer<MainComponent> owner;
         juce::MidiMessage message;
