@@ -9,7 +9,7 @@
 namespace BinaryData
 {
     extern const char*   CustomMZBuenard_ttf;
-    const int            CustomMZBuenard_ttfSize = 25544;
+    const int            CustomMZBuenard_ttfSize = 25764;
 
     extern const char*   icon_png;
     const int            icon_pngSize = 57735;

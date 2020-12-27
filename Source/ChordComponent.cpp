@@ -231,12 +231,12 @@ void ChordComponent::identify()
             break;
         case Chord::DimTriadRoot:
             drawRomanNum (chromaticDegree % 12, false);
-            diminishedBox.setText ("0");
+            diminishedBox.setText ("o");
             break;
         case Chord::DimTriadFirst:
             drawRomanNum ((chromaticDegree + 9) % 12, false);
             intervalBox.setText ("6");
-            diminishedBox.setText ("0");
+            diminishedBox.setText ("o");
             break;
         case Chord::SeventhRoot:
             drawRomanNum (chromaticDegree % 12, true);
@@ -273,7 +273,7 @@ void ChordComponent::identify()
                     return;
             }
             drawRomanNum (11, false);
-            diminishedBox.setText ("0");
+            diminishedBox.setText ("o");
             break;
         case Chord::HalfDimSeventhRoot:
             drawRomanNum (chromaticDegree % 12, false);

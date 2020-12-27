@@ -4,7 +4,7 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="wSrVHS" name="Chord Identifier">
     <GROUP id="{87AB27A0-7C94-FE39-89F5-D95CA3BB81A6}" name="Source">
-      <FILE id="urU4IE" name="CustomMZBuenard.ttf" compile="0" resource="1"
+      <FILE id="ZZzyID" name="CustomMZBuenard.ttf" compile="0" resource="1"
             file="Assets/CustomMZBuenard.ttf"/>
       <FILE id="hTL603" name="icon.png" compile="0" resource="1" file="Assets/icon.png"/>
       <FILE id="uB9iII" name="ChordComponent.cpp" compile="1" resource="0"
