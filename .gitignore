@@ -2,8 +2,8 @@
 .DS_Store
 
 # Build files
-Builds/
-BinaryData*.cpp
-BinaryData.h
+/Builds/
+/JuceLibraryCode/BinaryData*.cpp
+/JuceLibraryCode/BinaryData.h
 
 notes.txt
