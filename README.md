@@ -1,7 +1,7 @@
 # Chord Identifier
 [![Github All Releases](https://img.shields.io/github/downloads/huangyunzen/chord-identifier/total.svg)](https://github.com/huangyunzen/chord-identifier/releases/latest)
 
-Chord Identifier displays chords using roman numeral and figured bass notation in real-time when played on a MIDI keyboard. Supports macOS and Windows.
+Chord Identifier displays chords using roman numeral and figured bass notation in real-time when played on a MIDI keyboard. Supports macOS, Windows, and Linux.
 ![screenshot](https://github.com/huangyunzen/chord-identifier/blob/master/Assets/screenshot.png)
 ## Usage
 This app is meant to be a tool for music theory instruction. Simply plug in a MIDI keyboard (before launching the app) and choose a key from the drop-down list. The chords you play will then be displayed using roman numeral and figured bass notation in real-time.
