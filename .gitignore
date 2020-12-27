@@ -3,7 +3,7 @@
 
 # Build files
 Builds/
-JuceLibraryCode/BinaryData*.cpp
-JuceLibraryCode/BinaryData.h
+BinaryData*.cpp
+BinaryData.h
 
 notes.txt
