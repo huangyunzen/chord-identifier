@@ -6,4 +6,6 @@
 /JuceLibraryCode/BinaryData*.cpp
 /JuceLibraryCode/BinaryData.h
 
-notes.txt
+/notes.txt
+
+/UnitTests/
