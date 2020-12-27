@@ -11,7 +11,7 @@ This app is meant to be a tool for music theory instruction. Simply plug in a MI
 Major/minor triads, Diminished, Augmented, Seventh, with all their respective inversions.
 If you want to add more chords (or other features), either head over to the [developers](#developers) section or send me an email at huangyunzen@gmail.com.
 ## Download
-Visit the [releases](https://github.com/huangyunzen/chord-identifier/releases) page to download the latest release.
+Visit the [releases](https://github.com/huangyunzen/chord-identifier/releases/latest) page to download the latest release.
 ## Developers
 Steps to contribute:
 1. Download Juce/Projucer and a supported IDE (Xcode for macOS and Visual Studio for Windows)
